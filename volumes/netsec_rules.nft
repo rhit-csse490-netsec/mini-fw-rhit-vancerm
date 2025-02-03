@@ -1,0 +1,12 @@
+#!/usr/sbin/nft -f
+
+# include the file that creates the table and chain, so that we can mess around
+# with the rules here
+include "./netsec_tbl.nft"
+
+# define some variables, adjust these for your ip addresses
+define client_ip = 10.10.0.4
+define server_ip = 10.10.1.5
+
+# add our first rule
+add rule netsec_tbl netsec_in ip saddr $client_ip counter
