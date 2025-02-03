@@ -1,0 +1,11 @@
+#!/usr/sbin/nft -f
+
+add table ip netsec_tbl
+
+add chain netsec_tbl netsec_server { type filter hook forward priority 0 ; policy drop ; comment "first firewall" ; }
+
+define client_ip = 10.10.0.4
+define server_ip = 10.10.1.5
+
+add rule netsec_tbl netsec_server ip daddr $server_ip tcp dport { 22, 23, 80 } counter accept
+add rule netsec_tbl netsec_server ip saddr $server_ip tcp sport { 22, 23, 80 } accept
